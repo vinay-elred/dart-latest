@@ -1,22 +1,14 @@
-import 'package:dio/dio.dart';
+void main() {
+  //Record
+  (double x, double y, double z) data = (2.0, 5.0, 7.0);
+  print("Old Value $data");
+  data = (5.0, 9.0, 4.0);
+  print("New Value $data");
 
-void main() async {
-  final (:error, :response) = await get();
-  if (error != null) return print("Catch Error");
-  if (response == null) return print("Response Error");
-  final List data = response.data;
-  print("Data: $data");
-}
+  (double x, double y, double z) data2 = (5.0, 9.0, 4.0);
+  if (data2 == data) print("Equality");
 
-//Records
-Future<({Object? error, Response? response})> get() async {
-  try {
-    final response = await Dio().get(
-      "https://65dd6acde7edadead7eddeb2.mockapi.io/users",
-    );
-    if (response.statusCode == 200) return (error: null, response: response);
-    throw response;
-  } catch (e) {
-    return (error: e, response: null);
-  }
+  ({double x, double y, double z}) data3 = (x: 5.0, y: 9.0, z: 4.0);
+  print("Data 2 $data2");
+  print("Data 3 $data3");
 }
