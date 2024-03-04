@@ -1,14 +1,68 @@
+import 'package:flutter/material.dart';
+
 void main() {
-  //Record
-  (double x, double y, double z) data = (2.0, 5.0, 7.0);
-  print("Old Value $data");
-  data = (5.0, 9.0, 4.0);
-  print("New Value $data");
+  runApp(const Home());
+}
 
-  (double x, double y, double z) data2 = (5.0, 9.0, 4.0);
-  if (data2 == data) print("Equality");
+class Home extends StatelessWidget {
+  const Home({super.key});
 
-  ({double x, double y, double z}) data3 = (x: 5.0, y: 9.0, z: 4.0);
-  print("Data 2 $data2");
-  print("Data 3 $data3");
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text("Generic type"),
+        ),
+        body: ListBuilder1(
+          list: const [1, 2, 3, 5, 7, 9],
+          builder: (item, index) {
+            return Container(
+              color: Colors.amber,
+              margin: const EdgeInsets.all(8),
+              child: Text(item.toString()),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+typedef Builder<T> = Widget Function(T item, int index);
+
+class ListBuilder<T> extends StatelessWidget {
+  final List<T> list;
+  final Builder<T> builder;
+  const ListBuilder({super.key, required this.list, required this.builder});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: list.length,
+      itemBuilder: (context, index) {
+        final item = list[index];
+        return builder(item, index);
+      },
+    );
+  }
+}
+
+class ListBuilder1<T extends Object> extends StatelessWidget {
+  final List<T> list;
+  final Builder<T> builder;
+  const ListBuilder1({super.key, required this.list, required this.builder});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      shrinkWrap: true,
+      itemCount: list.length,
+      itemBuilder: (context, index) {
+        final item = list[index];
+        return builder(item, index);
+      },
+    );
+  }
 }
